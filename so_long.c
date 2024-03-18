@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quanguye <quanguye@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sixshooterx <sixshooterx@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 13:28:28 by quanguye          #+#    #+#             */
-/*   Updated: 2024/03/13 14:36:54 by quanguye         ###   ########.fr       */
+/*   Updated: 2024/03/18 13:38:10 by sixshooterx      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ shortest path possible
 
 -------------GRAPHIC MANAGEMENT---------------
 1. Display the image in a window
-2. Management og window must remain smooth (resizing, minimizing, etc)
+2. Management of window must remain smooth (resizing, minimizing, etc)
 3. ESC to close the window and quit the program
 4. Clicking on cross on window's frame must close the window and quit the
 5. Use images of MinilibX
@@ -60,3 +60,9 @@ shortest path possible
 */
 
 #include "so_long.h"
+
+int	main(void)
+{
+	printf("Hello, World!\n");
+	return (0);
+}
