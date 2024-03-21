@@ -6,7 +6,7 @@
 /*   By: quanguye <quanguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 13:28:32 by quanguye          #+#    #+#             */
-/*   Updated: 2024/03/13 14:07:28 by quanguye         ###   ########.fr       */
+/*   Updated: 2024/03/21 18:28:23 by quanguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,6 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <string.h>
+# include <mlx.h>
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sixshooterx <sixshooterx@student.42.fr>    +#+  +:+       +#+        */
+/*   By: quanguye <quanguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 13:28:28 by quanguye          #+#    #+#             */
-/*   Updated: 2024/03/18 13:38:10 by sixshooterx      ###   ########.fr       */
+/*   Updated: 2024/03/21 18:31:57 by quanguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,10 @@ shortest path possible
 
 int	main(void)
 {
-	printf("Hello, World!\n");
-	return (0);
+	void	*mlx;
+	void	*mlx_win;
+
+	mlx = mlx_init();
+	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello world!");
+	mlx_loop(mlx);
 }
