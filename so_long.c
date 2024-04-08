@@ -6,7 +6,7 @@
 /*   By: quanguye <quanguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 13:28:28 by quanguye          #+#    #+#             */
-/*   Updated: 2024/03/21 18:31:57 by quanguye         ###   ########.fr       */
+/*   Updated: 2024/04/08 14:45:21 by quanguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ shortest path possible
 7. Doesnt have to be real time
 
 -------------GRAPHIC MANAGEMENT---------------
-1. Display the image in a window
+1. Display the image in a window DONE
 2. Management of window must remain smooth (resizing, minimizing, etc)
-3. ESC to close the window and quit the program
-4. Clicking on cross on window's frame must close the window and quit the
+3. ESC to close the window and quit the program DONE
+4. Clicking on cross on window's frame must close the window and quit the DONE
 5. Use images of MinilibX
 
 -------------MAP MANAGEMENT---------------------
@@ -61,12 +61,43 @@ shortest path possible
 
 #include "so_long.h"
 
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+{
+	char	*dst;
+
+	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	*(unsigned int *)dst = color;
+}
+
+int	handle_keypress(int keysym, t_data *data)
+{
+	if (keysym == 65307)
+	{
+		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+		exit(0);
+	}
+	return (0);
+}
+
+int	handle_close(t_data *data)
+{
+	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+	exit(0);
+	return (0);
+}
+
 int	main(void)
 {
-	void	*mlx;
-	void	*mlx_win;
+	t_data	data;
 
-	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello world!");
-	mlx_loop(mlx);
+	data.mlx_ptr = mlx_init();
+	data.win_ptr = mlx_new_window(data.mlx_ptr, 1920, 1080, "Hello world!");
+	data.img = mlx_new_image(data.mlx_ptr, 1920, 1080);
+	data.addr = mlx_get_data_addr(data.img, &data.bits_per_pixel,
+			&data.line_length, &data.endian);
+	my_mlx_pixel_put(&data, 900, 500, 0x0066CCFF);
+	mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img, 0, 0);
+	mlx_key_hook(data.win_ptr, handle_keypress, &data);
+	mlx_hook(data.win_ptr, 17, 0, handle_close, &data);
+	mlx_loop(data.mlx_ptr);
 }
