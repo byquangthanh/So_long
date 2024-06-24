@@ -1,41 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.h                                          :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: quanguye <quanguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/13 13:28:32 by quanguye          #+#    #+#             */
-/*   Updated: 2024/06/24 17:18:50 by quanguye         ###   ########.fr       */
+/*   Created: 2024/02/06 15:09:46 by sixshooterx       #+#    #+#             */
+/*   Updated: 2024/02/21 15:00:10 by quanguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SO_LONG_H
-# define SO_LONG_H
-# include <stdlib.h>
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 # include <unistd.h>
-# include <fcntl.h>
+# include <stdarg.h>
 # include <stdio.h>
-# include <string.h>
-# include "mlx_linux/mlx.h"
+# include <fcntl.h>
+# include <stdlib.h>
+# include <stdint.h>
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1
+# endif
 
-typedef struct s_data
-{
-	void	*mlx_ptr;
-	void	*win_ptr;
-	void	*img;
-	void	*floor_img;
-	void	*player_img;
-	void	*wall_img;
-	void	*collectible_img;
-	void	*exit_img;
-}	t_data;
-
-void	load_images(t_data *data);
-int		ft_printf(const char *format, ...);
-int		handle_close(t_data *data);
-int		handle_keypress(int keysym, t_data *data);
-void	verify_map(char *map);
 char	*get_next_line(int fd);
-
+// void	*ft_calloc(size_t count, size_t size);
+char	*ft_strjoin(char *s1, char *s2);
+int		ft_strlen(char *s);
+char	*ft_strchr(char *s, int c);
+char	*split_next_line(char	*str);
+char	*ft_strdup(char *s1);
+char	*read_from_file(int fd, char *line);
+// void	ft_bzero(void *s, size_t n);
 #endif

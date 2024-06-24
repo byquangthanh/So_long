@@ -1,4 +1,4 @@
-CC = gcc
+CC = cc
 CFLAGS = -Wall -Wextra -Werror
 FT_PRINTF_DIR = ft_printf
 FT_PRINTF = $(FT_PRINTF_DIR)/libftprintf.a
@@ -6,15 +6,16 @@ LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 MLX_DIR = mlx_linux
 MLX = $(MLX_DIR)/libmlx.a
+GNL_DIR = GNL
 
-# Find all .c files in the current directory
-SRC = $(wildcard *.c)
+# Find all .c files in the current directory and GNL directory
+SRC = $(wildcard *.c) $(wildcard $(GNL_DIR)/*.c)
 
 # Replace .c with .o for all files found
 OBJ = $(SRC:.c=.o)
 
 # Additional include directories
-INCLUDES = -I/usr/include -I$(MLX_DIR) -I$(LIBFT_DIR) -I$(FT_PRINTF_DIR)
+INCLUDES = -I/usr/include -I$(MLX_DIR) -I$(LIBFT_DIR) -I$(FT_PRINTF_DIR) -I$(GNL_DIR)
 
 # Flags for linking MLX and X11
 MLX_FLAGS = -L$(MLX_DIR) -lmlx -L/usr/lib/X11 -lXext -lX11 -lm -lbsd
@@ -24,7 +25,7 @@ MLX_FLAGS = -L$(MLX_DIR) -lmlx -L/usr/lib/X11 -lXext -lX11 -lm -lbsd
 	$(CC) $(CFLAGS) $(INCLUDES) -O3 -c $< -o $@
 
 all: $(FT_PRINTF) $(LIBFT) $(MLX) $(OBJ)
-	$(CC) $(CFLAGS) -o so_long $(OBJ) $(MLX_FLAGS) -L$(LIBFT_DIR) -L$(FT_PRINTF_DIR) -lft -lftprintf
+	$(CC) $(CFLAGS) -o so_long $(OBJ) $(MLX_FLAGS) -L$(LIBFT_DIR) -L$(FT_PRINTF_DIR) -lftprintf -lft
 
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
@@ -48,3 +49,5 @@ fclean: clean
 	rm -f so_long
 
 re: fclean all
+
+.PHONY: all clean fclean re $(LIBFT) $(FT_PRINTF) $(MLX)

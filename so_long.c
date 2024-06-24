@@ -6,7 +6,7 @@
 /*   By: quanguye <quanguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 13:28:28 by quanguye          #+#    #+#             */
-/*   Updated: 2024/04/08 14:45:21 by quanguye         ###   ########.fr       */
+/*   Updated: 2024/06/24 17:24:44 by quanguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,43 +61,20 @@ shortest path possible
 
 #include "so_long.h"
 
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+int	main(int ac, char **av)
 {
-	char	*dst;
 
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int *)dst = color;
-}
-
-int	handle_keypress(int keysym, t_data *data)
-{
-	if (keysym == 65307)
+	if (ac != 2)
 	{
-		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-		exit(0);
+		ft_printf("Error\nUsage: ./program map\n");
+		return (1);
 	}
+	verify_map(av[1]);
+
 	return (0);
 }
 
-int	handle_close(t_data *data)
-{
-	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-	exit(0);
-	return (0);
-}
-
-int	main(void)
-{
-	t_data	data;
-
-	data.mlx_ptr = mlx_init();
-	data.win_ptr = mlx_new_window(data.mlx_ptr, 1920, 1080, "Hello world!");
-	data.img = mlx_new_image(data.mlx_ptr, 1920, 1080);
-	data.addr = mlx_get_data_addr(data.img, &data.bits_per_pixel,
-			&data.line_length, &data.endian);
-	my_mlx_pixel_put(&data, 900, 500, 0x0066CCFF);
-	mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img, 0, 0);
-	mlx_key_hook(data.win_ptr, handle_keypress, &data);
-	mlx_hook(data.win_ptr, 17, 0, handle_close, &data);
-	mlx_loop(data.mlx_ptr);
-}
+// 119 W
+// 97 A
+// 115 S
+// 100 D
