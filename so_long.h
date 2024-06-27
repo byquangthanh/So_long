@@ -6,7 +6,7 @@
 /*   By: quanguye <quanguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 13:28:32 by quanguye          #+#    #+#             */
-/*   Updated: 2024/06/24 17:18:50 by quanguye         ###   ########.fr       */
+/*   Updated: 2024/06/26 16:49:57 by quanguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <string.h>
-# include "mlx_linux/mlx.h"
+# include "MLX42/include/MLX42/MLX42.h"
 
 typedef struct s_data
 {
@@ -29,13 +29,18 @@ typedef struct s_data
 	void	*wall_img;
 	void	*collectible_img;
 	void	*exit_img;
+	int		exit;
+	int 	player;
+	int		wall;
+
 }	t_data;
 
 void	load_images(t_data *data);
 int		ft_printf(const char *format, ...);
 int		handle_close(t_data *data);
 int		handle_keypress(int keysym, t_data *data);
-void	verify_map(char *map);
+void	verify_map(char *file);
 char	*get_next_line(int fd);
+int		ft_strlen(const char *s);
 
 #endif

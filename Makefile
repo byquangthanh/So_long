@@ -4,28 +4,30 @@ FT_PRINTF_DIR = ft_printf
 FT_PRINTF = $(FT_PRINTF_DIR)/libftprintf.a
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
-MLX_DIR = mlx_linux
-MLX = $(MLX_DIR)/libmlx.a
+MLX_DIR = MLX42
+MLX = $(MLX_DIR)/libmlx42.a
 GNL_DIR = GNL
 
-# Find all .c files in the current directory and GNL directory
+# Find all .c files in the current directory and GNL_DIR
 SRC = $(wildcard *.c) $(wildcard $(GNL_DIR)/*.c)
 
 # Replace .c with .o for all files found
 OBJ = $(SRC:.c=.o)
 
 # Additional include directories
-INCLUDES = -I/usr/include -I$(MLX_DIR) -I$(LIBFT_DIR) -I$(FT_PRINTF_DIR) -I$(GNL_DIR)
+INCLUDES = -I/usr/include -I$(MLX_DIR)/include -I$(LIBFT_DIR) -I$(FT_PRINTF_DIR) -I$(GNL_DIR)
 
-# Flags for linking MLX and X11
-MLX_FLAGS = -L$(MLX_DIR) -lmlx -L/usr/lib/X11 -lXext -lX11 -lm -lbsd
+# Flags for linking MLX42 and its dependencies
+MLX_FLAGS = -L$(MLX_DIR) -lmlx42 -ldl -lglfw -pthread -lm
 
 # Generic rule for compiling .c to .o
 %.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDES) -O3 -c $< -o $@
 
-all: $(FT_PRINTF) $(LIBFT) $(MLX) $(OBJ)
-	$(CC) $(CFLAGS) -o so_long $(OBJ) $(MLX_FLAGS) -L$(LIBFT_DIR) -L$(FT_PRINTF_DIR) -lftprintf -lft
+all: $(FT_PRINTF) $(LIBFT) $(MLX) so_long
+
+so_long: $(OBJ)
+	$(CC) $(CFLAGS) -o $@ $(OBJ) $(MLX_FLAGS) -L$(LIBFT_DIR) -L$(FT_PRINTF_DIR) -lftprintf -lft
 
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
@@ -34,7 +36,8 @@ $(FT_PRINTF):
 	$(MAKE) -C $(FT_PRINTF_DIR)
 
 $(MLX):
-	$(MAKE) -C $(MLX_DIR)
+	mkdir -p $(MLX_DIR)
+	cd $(MLX_DIR) && cmake . && make
 
 clean:
 	$(MAKE) -C $(LIBFT_DIR) clean
