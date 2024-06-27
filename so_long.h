@@ -6,7 +6,7 @@
 /*   By: quanguye <quanguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 13:28:32 by quanguye          #+#    #+#             */
-/*   Updated: 2024/06/26 16:49:57 by quanguye         ###   ########.fr       */
+/*   Updated: 2024/06/27 20:29:33 by quanguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,17 @@ typedef struct s_data
 	void	*wall_img;
 	void	*collectible_img;
 	void	*exit_img;
-	int		exit;
-	int 	player;
-	int		wall;
 
 }	t_data;
+
+typedef struct c_data
+{
+	int		exit;
+	int		player;
+	int		rows;
+	int		cols;
+	int		collectible;
+}	t_sdata;
 
 void	load_images(t_data *data);
 int		ft_printf(const char *format, ...);
@@ -42,5 +48,7 @@ int		handle_keypress(int keysym, t_data *data);
 void	verify_map(char *file);
 char	*get_next_line(int fd);
 int		ft_strlen(const char *s);
+void	error_and_exit(char *error_message);
+void	free_map_memory(char **map, int rows);
 
 #endif

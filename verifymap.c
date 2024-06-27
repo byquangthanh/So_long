@@ -5,18 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: quanguye <quanguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/24 14:59:54 by quanguye          #+#    #+#             */
-/*   Updated: 2024/06/26 16:58:33 by quanguye         ###   ########.fr       */
+/*   Created: 2024/06/27 20:20:45 by quanguye          #+#    #+#             */
+/*   Updated: 2024/06/27 20:29:58 by quanguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-void	error_and_exit(char *error_message)
-{
-	ft_printf("Error\n%s\n", error_message);
-	exit(1);
-}
 
 int	is_valid_character(char c)
 {
@@ -34,53 +28,76 @@ void	check_walls(char **map, int rows, int cols)
 			error_and_exit("Map is not surrounded by walls");
 		i++;
 	}
+	i = 0;
 	while (i < rows)
 	{
-		if (map[0][i] != '1' || map[cols - 1][i] != '1')
+		if (map[i][0] != '1' || map[i][cols - 1] != '1')
 			error_and_exit("Map is not surrounded by walls");
 		i++;
 	}
 }
 
-void	verify_map(char *filename)
+void	char_checker(char *line, t_sdata *char_data, int i)
 {
-	int		fd;
+	while (i < char_data->cols)
+	{
+		if (!is_valid_character(line[i]))
+			error_and_exit("Map contains invalid characters");
+		if (line[i] == 'C')
+			char_data->collectible++;
+		if (line[i] == 'E')
+			char_data->exit++;
+		if (line[i] == 'P')
+			char_data->player++;
+		i++;
+	}
+}
+
+void	iterate_map(char **map, char *filename, t_sdata *char_data)
+{
 	char	*line;
-	char	**map;
-	int		rows = 0;
-	size_t	cols = 0;
-	int		collectibles = 0, exits = 0, players = 0;
+	int		fd;
 
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		error_and_exit("Unable to open the map file");
-	map = (char **)malloc(sizeof(char *) * 1024);
-	while ((line = get_next_line(fd)) != NULL)
+
+	char_data->collectible = 0;
+	char_data->exit = 0;
+	char_data->player = 0;
+	char_data->cols = 0;
+	char_data->rows = 0;
+
+	line = get_next_line(fd);
+	while (line != NULL)
 	{
-		if (rows == 0)
-			cols = ft_strlen(line) - 1;
-		if (strlen(line) - 1 != cols)
+		if (char_data->rows == 0)
+			char_data->cols = ft_strlen(line) - 1;
+		if (ft_strlen(line) - 1 != char_data->cols)
 			error_and_exit("Map is not rectangular");
-		for (size_t i = 0; i < cols; i++)
-		{
-			if (!is_valid_character(line[i]))
-				error_and_exit("Map contains invalid characters");
-			if (line[i] == 'C') collectibles++;
-			if (line[i] == 'E') exits++;
-			if (line[i] == 'P') players++;
-		}
-		map[rows++] = line;
+		char_checker(line, char_data, 0);
+		map[char_data->rows++] = line;
+		line = get_next_line(fd);
 	}
 	close(fd);
-	if (exits != 1)
+}
+
+void	verify_map(char *filename)
+{
+	char	**map;
+	t_sdata	char_data;
+
+	map = (char **)malloc(sizeof(char *) * 1024);
+
+	iterate_map(map, filename, &char_data);
+
+	if (char_data.exit != 1)
 		error_and_exit("Map must contain exactly one exit");
-	if (collectibles < 1)
+	if (char_data.collectible < 1)
 		error_and_exit("Map must contain at least one collectible");
-	if (players != 1)
+	if (char_data.player != 1)
 		error_and_exit("Map must contain exactly one starting position");
-	check_walls(map, rows, cols);
-	ft_printf("Looks fine");
-	for (int i = 0; i < rows; i++)
-		free(map[i]);
-	free(map);
+	check_walls(map, char_data.rows, char_data.cols);
+	ft_printf("Looks fine\n");
+	free_map_memory(map, char_data.rows);
 }
