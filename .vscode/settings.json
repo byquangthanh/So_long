@@ -2,6 +2,8 @@
 	"files.associations": {
 		"string.h": "c",
 		"string": "c",
-		"mlx42.h": "c"
+		"mlx42.h": "c",
+		"so_long.h": "c",
+		"unistd.h": "c"
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: quanguye <quanguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 20:20:45 by quanguye          #+#    #+#             */
-/*   Updated: 2024/06/27 20:29:58 by quanguye         ###   ########.fr       */
+/*   Updated: 2024/07/02 17:06:07 by quanguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	check_walls(char **map, int rows, int cols)
 	}
 }
 
-void	char_checker(char *line, t_sdata *char_data, int i)
+void	char_checker(char *line, t_data *char_data, int i)
 {
 	while (i < char_data->cols)
 	{
@@ -53,7 +53,7 @@ void	char_checker(char *line, t_sdata *char_data, int i)
 	}
 }
 
-void	iterate_map(char **map, char *filename, t_sdata *char_data)
+void	iterate_map(char **map, char *filename, t_data *game_data)
 {
 	char	*line;
 	int		fd;
@@ -61,43 +61,35 @@ void	iterate_map(char **map, char *filename, t_sdata *char_data)
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		error_and_exit("Unable to open the map file");
-
-	char_data->collectible = 0;
-	char_data->exit = 0;
-	char_data->player = 0;
-	char_data->cols = 0;
-	char_data->rows = 0;
-
+	game_data->collectible = 0;
+	game_data->exit = 0;
+	game_data->player = 0;
+	game_data->cols = 0;
+	game_data->rows = 0;
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
-		if (char_data->rows == 0)
-			char_data->cols = ft_strlen(line) - 1;
-		if (ft_strlen(line) - 1 != char_data->cols)
+		if (game_data->rows == 0)
+			game_data->cols = ft_strlen(line) - 1;
+		if (ft_strlen(line) - 1 != game_data->cols)
 			error_and_exit("Map is not rectangular");
-		char_checker(line, char_data, 0);
-		map[char_data->rows++] = line;
+		char_checker(line, game_data, 0);
+		map[game_data->rows++] = line;
 		line = get_next_line(fd);
 	}
 	close(fd);
 }
 
-void	verify_map(char *filename)
+void	verify_map(char *filename, t_data *data)
 {
-	char	**map;
-	t_sdata	char_data;
-
-	map = (char **)malloc(sizeof(char *) * 1024);
-
-	iterate_map(map, filename, &char_data);
-
-	if (char_data.exit != 1)
+	data->map = (char **)malloc(sizeof(char *) * 1024);
+	iterate_map(data->map, filename, data);
+	if (data->exit != 1)
 		error_and_exit("Map must contain exactly one exit");
-	if (char_data.collectible < 1)
+	if (data->collectible < 1)
 		error_and_exit("Map must contain at least one collectible");
-	if (char_data.player != 1)
+	if (data->player != 1)
 		error_and_exit("Map must contain exactly one starting position");
-	check_walls(map, char_data.rows, char_data.cols);
+	check_walls(data->map, data->rows, data->cols);
 	ft_printf("Looks fine\n");
-	free_map_memory(map, char_data.rows);
 }
