@@ -6,7 +6,7 @@
 /*   By: quanguye <quanguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 20:20:45 by quanguye          #+#    #+#             */
-/*   Updated: 2024/07/02 17:06:07 by quanguye         ###   ########.fr       */
+/*   Updated: 2024/07/08 16:36:57 by quanguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	char_checker(char *line, t_data *char_data, int i)
 		if (line[i] == 'E')
 			char_data->exit++;
 		if (line[i] == 'P')
-			char_data->player++;
+			char_data->player_num++;
 		i++;
 	}
 }
@@ -63,7 +63,7 @@ void	iterate_map(char **map, char *filename, t_data *game_data)
 		error_and_exit("Unable to open the map file");
 	game_data->collectible = 0;
 	game_data->exit = 0;
-	game_data->player = 0;
+	game_data->player_num = 0;
 	game_data->cols = 0;
 	game_data->rows = 0;
 	line = get_next_line(fd);
@@ -88,7 +88,7 @@ void	verify_map(char *filename, t_data *data)
 		error_and_exit("Map must contain exactly one exit");
 	if (data->collectible < 1)
 		error_and_exit("Map must contain at least one collectible");
-	if (data->player != 1)
+	if (data->player_num != 1)
 		error_and_exit("Map must contain exactly one starting position");
 	check_walls(data->map, data->rows, data->cols);
 	ft_printf("Looks fine\n");
