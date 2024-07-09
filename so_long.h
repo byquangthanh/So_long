@@ -6,7 +6,7 @@
 /*   By: quanguye <quanguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 19:12:03 by quanguye          #+#    #+#             */
-/*   Updated: 2024/07/09 17:19:27 by quanguye         ###   ########.fr       */
+/*   Updated: 2024/07/09 18:08:18 by quanguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,6 @@ void		ft_hook(void *param);
 void		initialize_parameters(t_data *gamedata);
 void		draw_wall(t_data *gamedata);
 void		draw_floor(t_data *gamedata);
+void		free_resources(t_data *gamedata);
 
 #endif

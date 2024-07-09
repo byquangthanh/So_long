@@ -6,7 +6,7 @@
 /*   By: quanguye <quanguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 13:28:28 by quanguye          #+#    #+#             */
-/*   Updated: 2024/07/02 15:45:56 by quanguye         ###   ########.fr       */
+/*   Updated: 2024/07/09 18:15:35 by quanguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,15 +63,16 @@ shortest path possible
 
 int	main(int ac, char **av)
 {
-	t_data	game_data;
+	t_data	gamedata;
 
 	if (ac != 2)
 	{
 		ft_printf("Error\nUsage: ./program map\n");
 		return (1);
 	}
-	verify_map(av[1], &game_data);
-	initialize_game(&game_data);
+	verify_map(av[1], &gamedata);
+	initialize_game(&gamedata);
+	free_resources(&gamedata);
 	return (0);
 }
 
