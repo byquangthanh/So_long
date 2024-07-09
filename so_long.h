@@ -6,7 +6,7 @@
 /*   By: quanguye <quanguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 19:12:03 by quanguye          #+#    #+#             */
-/*   Updated: 2024/07/08 19:09:36 by quanguye         ###   ########.fr       */
+/*   Updated: 2024/07/09 17:19:27 by quanguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ typedef struct s_collectible
 	void	*img;
 }		t_coll;
 
-
 typedef struct s_data
 {
 	int				exit;
@@ -54,6 +53,8 @@ typedef struct s_data
 	t_coll			*colls;
 	int				coll_count;
 	int				total_moves;
+	int				row;
+	int				col;
 }		t_data;
 
 void		load_images(t_data *data);
@@ -68,5 +69,14 @@ void		free_map_memory(char **map, int rows);
 void		initialize_game(t_data *gamedata);
 int			is_valid_move(t_data *gamedata, int x, int y);
 void		move_player(t_data *gamedata, int new_x, int new_y);
+void		handle_key_pressed(t_data *gamedata, int *key_pressed,
+				int *new_x, int *new_y);
+void		handle_key_release(t_data *gamedata, int *key_pressed);
+void		handle_movement(t_data *gamedata, int *new_x,
+				int *new_y, int *key_pressed);
+void		ft_hook(void *param);
+void		initialize_parameters(t_data *gamedata);
+void		draw_wall(t_data *gamedata);
+void		draw_floor(t_data *gamedata);
 
 #endif
