@@ -6,7 +6,7 @@
 /*   By: quanguye <quanguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:15:26 by quanguye          #+#    #+#             */
-/*   Updated: 2024/07/09 17:20:00 by quanguye         ###   ########.fr       */
+/*   Updated: 2024/07/10 14:55:56 by quanguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,9 @@ void	move_player(t_data *gamedata, int new_x, int new_y)
 		&& gamedata->score == gamedata->collectible)
 	{
 		ft_printf("Good job you won.");
+		mlx_close_window(gamedata->mlx);
+		mlx_terminate(gamedata->mlx);
+		free_resources(gamedata);
 		exit(1);
 	}
 	gamedata->total_moves++;

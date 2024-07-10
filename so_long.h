@@ -6,7 +6,7 @@
 /*   By: quanguye <quanguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 19:12:03 by quanguye          #+#    #+#             */
-/*   Updated: 2024/07/09 18:08:18 by quanguye         ###   ########.fr       */
+/*   Updated: 2024/07/10 15:12:45 by quanguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ int			handle_keypress(int keysym, t_data *data);
 void		verify_map(char *filename, t_data *data);
 char		*get_next_line(int fd);
 int			ft_strlen(const char *s);
-void		error_and_exit(char *error_message);
-void		free_map_memory(char **map, int rows);
+void		error_and_exit(char *error_message, t_data *gamedata);
+void		free_map(char **map, int rows);
 void		initialize_game(t_data *gamedata);
 int			is_valid_move(t_data *gamedata, int x, int y);
 void		move_player(t_data *gamedata, int new_x, int new_y);

@@ -6,7 +6,7 @@
 /*   By: quanguye <quanguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:54:35 by quanguye          #+#    #+#             */
-/*   Updated: 2024/07/09 18:17:23 by quanguye         ###   ########.fr       */
+/*   Updated: 2024/07/10 14:27:18 by quanguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,22 +25,19 @@ void	free_map(char **map, int rows)
 	free(map);
 }
 
+
 void	free_resources(t_data *gamedata)
 {
 	int	i;
 
 	i = 0;
-	free_map_memory(gamedata->map, gamedata->rows);
+	free_map(gamedata->map, gamedata->rows);
+	free(gamedata->colls);
 	while (i < 5)
 	{
-		mlx_delete_texture(gamedata->textures[i]);
+		if (gamedata->textures[i])
+			mlx_delete_texture(gamedata->textures[i]);
 		i++;
 	}
-	i = 0;
-	// while (i < gamedata->coll_count)
-	// {
-	// 	mlx_delete_image(gamedata->mlx, gamedata->colls[i].img);
-	// 	i++;
-	// }
-	free(gamedata->colls);
+	gamedata->textures[i] = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: quanguye <quanguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 16:58:42 by quanguye          #+#    #+#             */
-/*   Updated: 2024/07/09 17:17:33 by quanguye         ###   ########.fr       */
+/*   Updated: 2024/07/10 15:15:07 by quanguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	draw_textures(t_data *gamedata)
 {
 	gamedata->coll_count = 0;
 	gamedata->colls = malloc(gamedata->collectible * sizeof(t_coll));
+	if (!gamedata->colls)
+		error_and_exit("Failed to allocate memory for collectibles", gamedata);
 	gamedata->row = 0;
 	while (gamedata->row < gamedata->rows)
 	{
@@ -50,17 +52,11 @@ void	draw_textures(t_data *gamedata)
 		while (gamedata->col < gamedata->cols)
 		{
 			if (gamedata->map[gamedata->row][gamedata->col] == '1')
-			{
 				draw_wall(gamedata);
-			}
 			else if (gamedata->map[gamedata->row][gamedata->col] == 'C')
-			{
 				draw_collectible(gamedata);
-			}
 			else if (gamedata->map[gamedata->row][gamedata->col] == 'E')
-			{
 				draw_exit(gamedata);
-			}
 			gamedata->col++;
 		}
 		gamedata->row++;
@@ -99,7 +95,7 @@ void	initialize_game(t_data *gamedata)
 {
 	gamedata->mlx = mlx_init(WIDTH, HEIGHT, "So Long", true);
 	if (!gamedata->mlx)
-		error_and_exit("Unable to initialize mlx");
+		error_and_exit("Unable to initialize mlx", gamedata);
 	initialize_parameters(gamedata);
 	draw_floor(gamedata);
 	draw_textures(gamedata);
@@ -107,4 +103,5 @@ void	initialize_game(t_data *gamedata)
 	mlx_loop_hook(gamedata->mlx, &ft_hook, gamedata);
 	mlx_loop(gamedata->mlx);
 	mlx_terminate(gamedata->mlx);
+	free_resources(gamedata);
 }

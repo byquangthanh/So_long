@@ -6,29 +6,18 @@
 /*   By: quanguye <quanguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 20:25:01 by quanguye          #+#    #+#             */
-/*   Updated: 2024/07/09 17:17:37 by quanguye         ###   ########.fr       */
+/*   Updated: 2024/07/10 15:34:31 by quanguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	error_and_exit(char *error_message)
+void	error_and_exit(char *error_message, t_data *gamedata)
 {
-	ft_printf("Error:%s", error_message);
+	ft_printf("Error:%s\n", error_message);
+	if (gamedata->map)
+		free_map(gamedata->map, gamedata->rows);
 	exit(1);
-}
-
-void	free_map_memory(char **map, int rows)
-{
-	int	i;
-
-	i = 0;
-	while (i < rows)
-	{
-		free(map[i]);
-		i++;
-	}
-	free(map);
 }
 
 void	initialize_parameters(t_data *gamedata)
@@ -57,7 +46,7 @@ void	draw_floor(t_data *gamedata)
 			mlx_resize_image(gamedata->img, gamedata->tile_width,
 				gamedata->tile_height);
 			if (!gamedata->img)
-				error_and_exit("Failed to convert the img");
+				error_and_exit("Failed to convert the img", gamedata);
 			mlx_image_to_window(gamedata->mlx, gamedata->img,
 				gamedata->col * gamedata->tile_width,
 				gamedata->row * gamedata->tile_height);
