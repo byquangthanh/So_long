@@ -6,7 +6,7 @@
 /*   By: quanguye <quanguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 15:06:12 by sixshooterx       #+#    #+#             */
-/*   Updated: 2024/06/24 17:18:44 by quanguye         ###   ########.fr       */
+/*   Updated: 2024/07/17 16:04:36 by quanguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,13 @@ char	*read_from_file(int fd, char *line)
 	return (line);
 }
 
-char	*initiliaze_remainder(char *remainder)
+char	*initialize_remainder(char *remainder)
 {
 	if (!remainder)
 	{
 		remainder = malloc(1);
-		if (!remainder)
-			return (NULL);
-		remainder[0] = '\0';
+		if (remainder)
+			remainder[0] = '\0';
 	}
 	return (remainder);
 }
@@ -80,10 +79,11 @@ char	*get_next_line(int fd)
 	static char	*remainder;
 	char		*line;
 	char		*new_line_position;
-	char		*temp;
 
-	remainder = initiliaze_remainder(remainder);
 	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (free_remainder(&remainder));
+	remainder = initialize_remainder(remainder);
+	if (!remainder)
 		return (NULL);
 	remainder = read_from_file(fd, remainder);
 	if (!remainder)
@@ -91,16 +91,11 @@ char	*get_next_line(int fd)
 	line = split_next_line(remainder);
 	new_line_position = ft_strchr(remainder, '\n');
 	if (new_line_position)
-	{
-		temp = ft_strdup(new_line_position + 1);
-		free(remainder);
-		remainder = temp;
-	}
+		remainder = update_remainder(remainder, new_line_position);
 	else
-	{
-		free(remainder);
-		remainder = NULL;
-	}
+		remainder = free_remainder(&remainder);
+	if (!line)
+		remainder = free_remainder(&remainder);
 	return (line);
 }
 

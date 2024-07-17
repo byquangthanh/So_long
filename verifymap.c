@@ -6,7 +6,7 @@
 /*   By: quanguye <quanguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 20:20:45 by quanguye          #+#    #+#             */
-/*   Updated: 2024/07/10 15:34:45 by quanguye         ###   ########.fr       */
+/*   Updated: 2024/07/17 16:09:32 by quanguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,6 @@ void	iterate_map(char *filename, t_data *gamedata)
 	char	*line;
 	int		fd;
 
-	gamedata->cols = 0;
-	gamedata->rows = 0;
-	gamedata->exit = 0;
-	gamedata->collectible = 0;
-	gamedata->player_num = 0;
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		error_and_exit("Unable to open the map file", gamedata);
@@ -75,7 +70,11 @@ void	iterate_map(char *filename, t_data *gamedata)
 		if (gamedata->rows == 0)
 			gamedata->cols = ft_strlen(line) - 1;
 		if (ft_strlen(line) - 1 != gamedata->cols)
-			free_map(gamedata->map, gamedata->rows);
+		{
+			free(line);
+			cleanup_gnl();
+			error_and_exit("Map is not rectangular", gamedata);
+		}
 		char_checker(line, gamedata);
 		gamedata->map[gamedata->rows++] = line;
 		line = get_next_line(fd);
@@ -85,8 +84,16 @@ void	iterate_map(char *filename, t_data *gamedata)
 
 void	verify_map(char *filename, t_data *data)
 {
+	data->cols = 0;
+	data->rows = 0;
+	data->exit = 0;
+	data->collectible = 0;
+	data->player_num = 0;
 	data->map = (char **)malloc(sizeof(char *) * 1024);
+	data->temp_map = NULL;
+	data->mlx = NULL;
 	iterate_map(filename, data);
+	get_player_coordination(data);
 	if (data->exit != 1)
 		error_and_exit("Map must contain exactly one exit", data);
 	if (data->collectible < 1)
@@ -94,5 +101,6 @@ void	verify_map(char *filename, t_data *data)
 	if (data->player_num != 1)
 		error_and_exit("Map must contain exactly one player", data);
 	check_walls(data, data->rows, data->cols);
+	check_valid_map(data);
 	ft_printf("Looks fine\n");
 }

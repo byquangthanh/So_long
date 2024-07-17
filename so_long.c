@@ -6,7 +6,7 @@
 /*   By: quanguye <quanguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 13:28:28 by quanguye          #+#    #+#             */
-/*   Updated: 2024/07/10 14:56:04 by quanguye         ###   ########.fr       */
+/*   Updated: 2024/07/16 16:57:21 by quanguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ int	main(int ac, char **av)
 	}
 	verify_map(av[1], &gamedata);
 	initialize_game(&gamedata);
-	free_resources(&gamedata);
 	return (0);
 }
 

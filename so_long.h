@@ -6,7 +6,7 @@
 /*   By: quanguye <quanguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 19:12:03 by quanguye          #+#    #+#             */
-/*   Updated: 2024/07/10 15:12:45 by quanguye         ###   ########.fr       */
+/*   Updated: 2024/07/17 16:12:31 by quanguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@ typedef struct s_data
 	int				total_moves;
 	int				row;
 	int				col;
+	int				temp_collectible;
+	int				temp_exit;
+	char			**temp_map;
 }		t_data;
 
 void		load_images(t_data *data);
@@ -79,5 +82,10 @@ void		initialize_parameters(t_data *gamedata);
 void		draw_wall(t_data *gamedata);
 void		draw_floor(t_data *gamedata);
 void		free_resources(t_data *gamedata);
+void		check_valid_map(t_data *data);
+void		*ft_memcpy(void *restrict dst, const void *restrict src, size_t n);
+void		flood_fill(char **map, int x, int y, t_data *data);
+void		get_player_coordination(t_data *data);
+void		cleanup_gnl(void);
 
 #endif

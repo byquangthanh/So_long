@@ -6,7 +6,7 @@
 /*   By: quanguye <quanguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 15:09:46 by sixshooterx       #+#    #+#             */
-/*   Updated: 2024/02/21 15:00:10 by quanguye         ###   ########.fr       */
+/*   Updated: 2024/07/17 16:01:45 by quanguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,6 @@ char	*split_next_line(char	*str);
 char	*ft_strdup(char *s1);
 char	*read_from_file(int fd, char *line);
 // void	ft_bzero(void *s, size_t n);
+char	*update_remainder(char *remainder, char *new_line_position);
+char	*free_remainder(char **remainder);
 #endif

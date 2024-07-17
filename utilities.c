@@ -6,7 +6,7 @@
 /*   By: quanguye <quanguye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 20:25:01 by quanguye          #+#    #+#             */
-/*   Updated: 2024/07/10 15:34:31 by quanguye         ###   ########.fr       */
+/*   Updated: 2024/07/16 18:02:35 by quanguye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,15 @@
 void	error_and_exit(char *error_message, t_data *gamedata)
 {
 	ft_printf("Error:%s\n", error_message);
-	if (gamedata->map)
-		free_map(gamedata->map, gamedata->rows);
+	if (gamedata)
+	{
+		if (gamedata->map)
+			free_map(gamedata->map, gamedata->rows);
+		if (gamedata->temp_map)
+			free_map(gamedata->temp_map, gamedata->rows);
+		if (gamedata->mlx)
+			free_resources(gamedata);
+	}
 	exit(1);
 }
 
